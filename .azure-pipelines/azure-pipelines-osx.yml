@@ -10,15 +10,8 @@ jobs:
   strategy:
     maxParallel: 8
     matrix:
-      osx_python2.7:
-        CONFIG: osx_python2.7
-        UPLOAD_PACKAGES: True
       osx_python3.6:
         CONFIG: osx_python3.6
-        UPLOAD_PACKAGES: True
-      osx_python3.7:
-        CONFIG: osx_python3.7
-        UPLOAD_PACKAGES: True
 
   steps:
   # TODO: Fast finish on azure pipelines?
@@ -72,10 +65,5 @@ jobs:
       conda build ./recipe -m ./.ci_support/${CONFIG}.yaml --clobber-file ./.ci_support/clobber_${CONFIG}.yaml
     displayName: Build recipe
 
-  - script: |
-      source activate base
-      upload_package ./ ./recipe ./.ci_support/${CONFIG}.yaml
-    displayName: Upload recipe
-    env:
-      BINSTAR_TOKEN: $(BINSTAR_TOKEN)
-    condition: not(eq(variables['UPLOAD_PACKAGES'], 'False'))
+  - publish: /usr/local/miniconda/conda-bld/osx-64/
+    artifact: packages
