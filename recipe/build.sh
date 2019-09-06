@@ -18,7 +18,6 @@ if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
 fi
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     OPENMP=""
-    QT="0"
     V4L="0"
     # The old OSX compilers don't know what to do with AVX instructions
     # Therefore, we specify what CPU dispatch operations we want explicitely
